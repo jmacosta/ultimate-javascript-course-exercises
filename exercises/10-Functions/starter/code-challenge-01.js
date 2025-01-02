@@ -50,8 +50,22 @@ const poll = {
     } catch (error) {
       alert('!Invalid answer 🚫');
     }
+    this.displayResults();
+  },
+  displayResults: function (type = 'array', data = this.answers) {
+    const result =
+      type === 'array' ? data : `Poll results are ${data.join(', ')})}`;
+
+    console.log(result);
   },
 };
 
 const button = document.querySelector('.poll');
 button.addEventListener('click', poll.registerNewAnswer.bind(poll));
+
+const outFunction = poll.displayResults.bind(poll);
+
+outFunction('array', [5, 2, 3]);
+outFunction('string', [5, 2, 3]);
+outFunction('array', [1, 5, 3, 9, 6, 1]);
+outFunction('string', [1, 5, 3, 9, 6, 1]);
