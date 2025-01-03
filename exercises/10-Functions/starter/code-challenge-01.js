@@ -38,13 +38,14 @@ const poll = {
   // This generates [0, 0, 0, 0]. More in the next section!
   answers: new Array(4).fill(0),
   registerNewAnswer: function () {
-    const optionsString = this.options.map(option => `${option}`).join('\n');
-    const answer = prompt(`
-      ${this.question}
-      ${optionsString}
-      
-      (Write option number)
-      `);
+    const answer = prompt(
+      `${this.question}
+
+ ${this.options.join('\n')}
+ 
+ (Write option number)
+      `
+    );
     try {
       if (Number(answer) < 4 && Number(answer) >= 0) this.answers[answer] += 1;
     } catch (error) {
