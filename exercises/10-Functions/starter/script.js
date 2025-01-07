@@ -13,67 +13,133 @@
 
 // greet('Hello')('Jonas');
 
-const greet = greeting => {
-  return name => {
-    console.log(`${greeting} ${name}`);
+// const greet = greeting => {
+//   return name => {
+//     console.log(`${greeting} ${name}`);
+//   };
+// };
+
+// greet('hey')('Juanma');
+
+// const lufthansa = {
+//   airline: 'lufthansa',
+//   iataCode: 'LH',
+//   bookings: [],
+//   book(flightNum, name) {
+//     console.log(
+//       `${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`
+//     );
+//     this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
+//   },
+// };
+
+// lufthansa.book(23, 'Jonas Schmetman');
+// lufthansa.book(635, 'Jhon Smith');
+// console.log(lufthansa);
+
+// const eurowings = {
+//   airline: 'Eurowings',
+//   iataCode: 'EW',
+//   bookings: [],
+// };
+
+// const book = lufthansa.book;
+
+// book.call(eurowings, 23, 'Sarah Williams');
+// console.log(eurowings);
+
+// book.call(lufthansa, 34, 'Mary Cooper');
+// console.log(lufthansa);
+
+// const swiss = {
+//   airline: 'Swiss Air Lines',
+//   iataCode: 'LX',
+//   bookings: [],
+// };
+
+// book.call(swiss, 42, 'John Henry');
+// console.log(swiss);
+
+// const flightData = [583, 'George Cooper'];
+// book.apply(swiss, flightData);
+// book.apply(lufthansa, [453, 'Lissy Cooper']);
+
+// const bookEW = book.bind(eurowings);
+
+// bookEW(535, 'Steven Williams');
+
+// const addTax = (rate, value) => value + value * rate;
+// console.log(addTax(0.1, 200));
+
+// //const addVAT = addTax.bind(null, 0.23);
+
+// const addVAT = rate => addTax(0.23, rate);
+
+// console.log(addVAT(100));
+// console.log(addVAT(34));
+
+// const runOnce = function () {
+//   console.log('This never run again');
+// };
+// runOnce();
+
+// (function () {
+//   console.log('This never run again');
+// })();
+
+// (() => {
+//   console.log('This never run again');
+// })();
+
+//Closures
+
+const secureBooking = function () {
+  let passengerCount = 0;
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
   };
 };
 
-greet('hey')('Juanma');
+const booker = secureBooking();
 
-const lufthansa = {
-  airline: 'lufthansa',
-  iataCode: 'LH',
-  bookings: [],
-  book(flightNum, name) {
-    console.log(
-      `${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`
-    );
-    this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
-  },
+booker();
+booker();
+booker();
+
+console.dir(booker);
+
+// example 1
+let f;
+const g = function () {
+  const a = 23;
+  f = function () {
+    console.log(a * 2);
+  };
 };
 
-lufthansa.book(23, 'Jonas Schmetman');
-lufthansa.book(635, 'Jhon Smith');
-console.log(lufthansa);
-
-const eurowings = {
-  airline: 'Eurowings',
-  iataCode: 'EW',
-  bookings: [],
+const h = function () {
+  const b = 777;
+  f = function () {
+    console.log(b * 2);
+  };
 };
 
-const book = lufthansa.book;
+g();
+f();
+// reasign f function
+h();
+f();
 
-book.call(eurowings, 23, 'Sarah Williams');
-console.log(eurowings);
+// Example 2
+const boardPassengers = function (n, wait) {
+  const perGroup = n / 3;
+  setTimeout(function () {
+    console.log(`We are now boarding all ${n} passengers`);
+    console.log(`There are 3 groups, each with ${perGroup} passengers`);
+  }, wait * 1000);
 
-book.call(lufthansa, 34, 'Mary Cooper');
-console.log(lufthansa);
-
-const swiss = {
-  airline: 'Swiss Air Lines',
-  iataCode: 'LX',
-  bookings: [],
+  console.log(`Will start boarding in ${wait} seconds`);
 };
 
-book.call(swiss, 42, 'John Henry');
-console.log(swiss);
-
-const flightData = [583, 'George Cooper'];
-book.apply(swiss, flightData);
-book.apply(lufthansa, [453, 'Lissy Cooper']);
-
-const bookEW = book.bind(eurowings);
-
-bookEW(535, 'Steven Williams');
-
-const addTax = (rate, value) => value + value * rate;
-console.log(addTax(0.1, 200));
-
-//const addVAT = addTax.bind(null, 0.23);
-
-const addVAT = rate => addTax(0.23, rate);
-
-console.log(addVAT(100));
-console.log(addVAT(34));
+boardPassengers(180, 3);
