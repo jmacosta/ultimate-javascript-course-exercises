@@ -80,3 +80,16 @@ const displayMovements = function (movements) {
 };
 
 displayMovements(account1.movements);
+
+const createUserNames = accs =>
+  accs.forEach(
+    acc =>
+      (acc.username = acc.owner
+        .toLowerCase()
+        .split(' ')
+        .map(name => name[0])
+        .join(''))
+  );
+
+console.log(createUserNames(accounts));
+console.log(accounts);
