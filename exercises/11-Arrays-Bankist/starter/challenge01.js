@@ -24,7 +24,7 @@
 
 const checkDogs = (dogsJulia, dogsKate) => {
   return dogsJulia
-    .slice(1, -1)
+    .slice(1, -2)
     .concat(dogsKate)
     .forEach((dog, index) => {
       dog > 2
