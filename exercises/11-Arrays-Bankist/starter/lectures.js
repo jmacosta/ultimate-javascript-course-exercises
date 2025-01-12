@@ -90,3 +90,16 @@ console.log(deposits);
 
 const withdrawals = movements.filter(move => move < 0);
 console.log(withdrawals);
+
+console.log(movements);
+const currentBalance = movements.reduce((acc, move) => acc + move, 0);
+console.log(currentBalance);
+
+// maximum value
+
+const maximum = movements.reduce(
+  (max, mov) => (max > mov ? max : mov),
+  movements[0]
+);
+
+console.log(maximum);
