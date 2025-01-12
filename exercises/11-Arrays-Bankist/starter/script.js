@@ -91,5 +91,8 @@ const createUserNames = accs =>
         .join(''))
   );
 
-console.log(createUserNames(accounts));
-console.log(accounts);
+const calcPrintBalance = movements => {
+  labelBalance.textContent = `${movements.reduce((acc, mov) => acc + mov, 0)}€`;
+};
+
+calcPrintBalance(account1.movements);
