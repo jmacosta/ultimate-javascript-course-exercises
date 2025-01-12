@@ -84,3 +84,9 @@ const MovementsDescriptions = movements.map(
 );
 
 console.log(MovementsDescriptions);
+
+const deposits = movements.filter(move => move > 0);
+console.log(deposits);
+
+const withdrawals = movements.filter(move => move < 0);
+console.log(withdrawals);
