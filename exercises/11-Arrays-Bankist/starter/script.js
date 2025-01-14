@@ -79,8 +79,6 @@ const displayMovements = function (movements) {
   });
 };
 
-displayMovements(account1.movements);
-
 const createUserNames = accs =>
   accs.forEach(
     acc =>
@@ -95,4 +93,27 @@ const calcPrintBalance = movements => {
   labelBalance.textContent = `${movements.reduce((acc, mov) => acc + mov, 0)}€`;
 };
 
-calcPrintBalance(account1.movements);
+const calcDisplaySummary = movements => {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}€`;
+  const out = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    .filter(int => int > 1)
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interest}€`;
+};
+
+const displayData = movements => {
+  displayMovements(movements);
+  calcPrintBalance(movements);
+  calcDisplaySummary(movements);
+};
+
+displayData(account1.movements);
