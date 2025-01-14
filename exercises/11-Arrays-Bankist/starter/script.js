@@ -61,6 +61,38 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+//Users functions
+
+const createUserNames = accs =>
+  accs.forEach(
+    acc =>
+      (acc.username = acc.owner
+        .toLowerCase()
+        .split(' ')
+        .map(name => name[0])
+        .join(''))
+  );
+createUserNames(accounts);
+
+//event handler
+let currentAccount;
+btnLogin.addEventListener('click', e => {
+  e.preventDefault();
+
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    displayData(currentAccount);
+  }
+});
+
+//Display Data functions
+
+const calcPrintBalance = movements => {
+  labelBalance.textContent = `${movements.reduce((acc, mov) => acc + mov, 0)}€`;
+};
+
 const displayMovements = function (movements) {
   containerMovements.innerHTML = '';
 
@@ -79,21 +111,7 @@ const displayMovements = function (movements) {
   });
 };
 
-const createUserNames = accs =>
-  accs.forEach(
-    acc =>
-      (acc.username = acc.owner
-        .toLowerCase()
-        .split(' ')
-        .map(name => name[0])
-        .join(''))
-  );
-
-const calcPrintBalance = movements => {
-  labelBalance.textContent = `${movements.reduce((acc, mov) => acc + mov, 0)}€`;
-};
-
-const calcDisplaySummary = movements => {
+const calcDisplaySummary = (movements, interestRate) => {
   const incomes = movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
@@ -104,16 +122,20 @@ const calcDisplaySummary = movements => {
   labelSumOut.textContent = `${Math.abs(out)}€`;
   const interest = movements
     .filter(mov => mov > 0)
-    .map(deposit => (deposit * 1.2) / 100)
+    .map(deposit => (deposit * interestRate) / 100)
     .filter(int => int > 1)
     .reduce((acc, int) => acc + int, 0);
   labelSumInterest.textContent = `${interest}€`;
 };
 
-const displayData = movements => {
+const displayData = account => {
+  inputLoginPin.value = '';
+  inputLoginUsername.value = '';
+  inputLoginPin.blur();
+  const { owner, movements, interestRate } = account;
+  labelWelcome.textContent = `Welcome back, ${owner.split(' ')[0]}`;
+  containerApp.style.opacity = 100;
   displayMovements(movements);
   calcPrintBalance(movements);
-  calcDisplaySummary(movements);
+  calcDisplaySummary(movements, interestRate);
 };
-
-displayData(account1.movements);
