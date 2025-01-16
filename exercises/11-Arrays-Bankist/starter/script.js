@@ -73,33 +73,6 @@ const createUserNames = accs =>
         .join(''))
   );
 createUserNames(accounts);
-
-//event handler
-let currentAccount;
-let destTransfer;
-
-btnLogin.addEventListener('click', e => {
-  e.preventDefault();
-
-  currentAccount = accounts.find(
-    acc => acc.username === inputLoginUsername.value
-  );
-  if (currentAccount?.pin === Number(inputLoginPin.value)) {
-    displayData(currentAccount);
-  }
-});
-btnTransfer.addEventListener('click', e => {
-  e.preventDefault();
-  destTransfer = accounts.find(acc => acc.username === inputTransferTo.value);
-  inputTransferTo.value = '';
-  inputTransferAmount.value = '';
-  if (destTransfer?.username) transferMoney(currentAccount, destTransfer);
-});
-
-const transferMoney = (oriAccount, destAccount) => {
-  console.log('transfer ok');
-};
-
 // reset data
 
 const resetInputs = () => {
@@ -116,6 +89,38 @@ const resetInputs = () => {
   inputLoanAmount.blur();
   inputCloseUsername.blur();
   inputClosePin.blur();
+};
+
+//event handler
+let currentAccount;
+let destTransfer;
+
+btnLogin.addEventListener('click', e => {
+  e.preventDefault();
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    displayData(currentAccount);
+  }
+});
+btnTransfer.addEventListener('click', e => {
+  e.preventDefault();
+  destTransfer = accounts.find(acc => acc.username === inputTransferTo.value);
+
+  if (destTransfer?.username && Number(inputTransferAmount.value) > 0)
+    transferMoney(
+      currentAccount,
+      destTransfer,
+      Number(inputTransferAmount.value)
+    );
+  resetInputs();
+});
+
+const transferMoney = (oriAccount, destAccount, amount) => {
+  oriAccount.movements.push(0 - amount);
+  destAccount.movements.push(amount);
+  displayData(oriAccount);
 };
 
 //Display Data functions
