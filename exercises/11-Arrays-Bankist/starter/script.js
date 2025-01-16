@@ -76,6 +76,8 @@ createUserNames(accounts);
 
 //event handler
 let currentAccount;
+let destTransfer;
+
 btnLogin.addEventListener('click', e => {
   e.preventDefault();
 
@@ -86,6 +88,35 @@ btnLogin.addEventListener('click', e => {
     displayData(currentAccount);
   }
 });
+btnTransfer.addEventListener('click', e => {
+  e.preventDefault();
+  destTransfer = accounts.find(acc => acc.username === inputTransferTo.value);
+  inputTransferTo.value = '';
+  inputTransferAmount.value = '';
+  if (destTransfer?.username) transferMoney(currentAccount, destTransfer);
+});
+
+const transferMoney = (oriAccount, destAccount) => {
+  console.log('transfer ok');
+};
+
+// reset data
+
+const resetInputs = () => {
+  inputLoginPin.value = '';
+  inputLoginUsername.value = '';
+  inputTransferTo.value = '';
+  inputTransferAmount.value = '';
+  inputLoanAmount.value = '';
+  inputCloseUsername.value = '';
+  inputClosePin.value = '';
+  inputLoginPin.blur();
+  inputTransferTo.blur();
+  inputTransferAmount.blur();
+  inputLoanAmount.blur();
+  inputCloseUsername.blur();
+  inputClosePin.blur();
+};
 
 //Display Data functions
 
@@ -129,9 +160,7 @@ const calcDisplaySummary = (movements, interestRate) => {
 };
 
 const displayData = account => {
-  inputLoginPin.value = '';
-  inputLoginUsername.value = '';
-  inputLoginPin.blur();
+  resetInputs();
   const { owner, movements, interestRate } = account;
   labelWelcome.textContent = `Welcome back, ${owner.split(' ')[0]}`;
   containerApp.style.opacity = 100;
@@ -139,5 +168,3 @@ const displayData = account => {
   calcPrintBalance(movements);
   calcDisplaySummary(movements, interestRate);
 };
-
-//TODO Implemantation tranfers
