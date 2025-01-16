@@ -112,7 +112,7 @@ btnTransfer.addEventListener('click', e => {
     destTransfer?.username &&
     Number(inputTransferAmount.value) > 0 &&
     Number(currentAccount.balance) >= Number(inputTransferAmount.value) &&
-    destTransfer.username !== currentAccount.username
+    destTransfer?.username !== currentAccount.username
   )
     transferMoney(
       currentAccount,
@@ -124,7 +124,7 @@ btnTransfer.addEventListener('click', e => {
 });
 
 const transferMoney = (oriAccount, destAccount, amount) => {
-  oriAccount.movements.push(0 - amount);
+  oriAccount.movements.push(-amount);
   destAccount.movements.push(amount);
   displayData(oriAccount);
 };
