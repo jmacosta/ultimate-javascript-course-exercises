@@ -111,13 +111,15 @@ btnTransfer.addEventListener('click', e => {
   if (
     destTransfer?.username &&
     Number(inputTransferAmount.value) > 0 &&
-    Number(currentAccount.balance) > Number(inputTransferAmount.value)
+    Number(currentAccount.balance) >= Number(inputTransferAmount.value) &&
+    destTransfer.username !== currentAccount.username
   )
     transferMoney(
       currentAccount,
       destTransfer,
       Number(inputTransferAmount.value)
     );
+  else alert(`⛔ Transfer invalid`);
   resetInputs();
 });
 
