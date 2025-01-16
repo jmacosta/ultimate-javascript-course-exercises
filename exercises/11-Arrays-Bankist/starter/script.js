@@ -108,7 +108,11 @@ btnTransfer.addEventListener('click', e => {
   e.preventDefault();
   destTransfer = accounts.find(acc => acc.username === inputTransferTo.value);
 
-  if (destTransfer?.username && Number(inputTransferAmount.value) > 0)
+  if (
+    destTransfer?.username &&
+    Number(inputTransferAmount.value) > 0 &&
+    Number(currentAccount.balance) > Number(inputTransferAmount.value)
+  )
     transferMoney(
       currentAccount,
       destTransfer,
@@ -163,6 +167,9 @@ const calcDisplaySummary = (movements, interestRate) => {
     .reduce((acc, int) => acc + int, 0);
   labelSumInterest.textContent = `${interest}€`;
 };
+const updateBalance = account => {
+  account.balance = account.movements.reduce((acc, mov) => acc + mov, 0);
+};
 
 const displayData = account => {
   resetInputs();
@@ -171,5 +178,6 @@ const displayData = account => {
   containerApp.style.opacity = 100;
   displayMovements(movements);
   calcPrintBalance(movements);
+  updateBalance(account);
   calcDisplaySummary(movements, interestRate);
 };
