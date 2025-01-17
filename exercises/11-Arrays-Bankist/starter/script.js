@@ -90,7 +90,10 @@ const resetInputs = () => {
   inputCloseUsername.blur();
   inputClosePin.blur();
 };
-
+const logout = () => {
+  containerApp.style.opacity = 0;
+  labelWelcome.textContent = `Log in to get started`;
+};
 //event handler
 let currentAccount;
 let destTransfer;
@@ -104,6 +107,7 @@ btnLogin.addEventListener('click', e => {
     displayData(currentAccount);
   }
 });
+
 btnTransfer.addEventListener('click', e => {
   e.preventDefault();
   destTransfer = accounts.find(acc => acc.username === inputTransferTo.value);
@@ -121,6 +125,20 @@ btnTransfer.addEventListener('click', e => {
     );
   else alert(`⛔ Transfer invalid`);
   resetInputs();
+});
+
+btnClose.addEventListener('click', e => {
+  e.preventDefault();
+  if (
+    currentAccount.username === inputCloseUsername.value &&
+    currentAccount.pin === Number(inputClosePin.value)
+  ) {
+    const accToRemove = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    accounts.splice(accToRemove, 1);
+    logout();
+  }
 });
 
 const transferMoney = (oriAccount, destAccount, amount) => {
