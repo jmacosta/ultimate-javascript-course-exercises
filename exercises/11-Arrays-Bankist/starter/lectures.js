@@ -113,3 +113,19 @@ console.log(totalDepositsUSD);
 const firstWithdrawal = movements.find(mov => mov < 0);
 
 console.log(movements.find(mov => mov < 0));
+
+///////////////////////////////////////////////////////////////
+// The New findLast and findLastIndex Methods
+
+console.log(movements);
+const lastWitdhrawal = movements.findLast(mov => mov < 0);
+console.log(lastWitdhrawal);
+
+console.log(
+  `Your latest large movement was ${
+    movements.length -
+    movements.findLastIndex(
+      mov => mov === movements.reduce((acc, mov) => (acc > mov ? acc : mov), 0)
+    )
+  } movements ago `
+);
