@@ -94,52 +94,6 @@ const logout = () => {
   containerApp.style.opacity = 0;
   labelWelcome.textContent = `Log in to get started`;
 };
-//event handler
-let currentAccount;
-let destTransfer;
-
-btnLogin.addEventListener('click', e => {
-  e.preventDefault();
-  currentAccount = accounts.find(
-    acc => acc.username === inputLoginUsername.value
-  );
-  if (currentAccount?.pin === Number(inputLoginPin.value)) {
-    displayData(currentAccount);
-  }
-});
-
-btnTransfer.addEventListener('click', e => {
-  e.preventDefault();
-  destTransfer = accounts.find(acc => acc.username === inputTransferTo.value);
-
-  if (
-    destTransfer?.username &&
-    Number(inputTransferAmount.value) > 0 &&
-    Number(currentAccount.balance) >= Number(inputTransferAmount.value) &&
-    destTransfer?.username !== currentAccount.username
-  )
-    transferMoney(
-      currentAccount,
-      destTransfer,
-      Number(inputTransferAmount.value)
-    );
-  else alert(`⛔ Transfer invalid`);
-  resetInputs();
-});
-
-btnClose.addEventListener('click', e => {
-  e.preventDefault();
-  if (
-    currentAccount.username === inputCloseUsername.value &&
-    currentAccount.pin === Number(inputClosePin.value)
-  ) {
-    const accToRemove = accounts.findIndex(
-      acc => acc.username === currentAccount.username
-    );
-    accounts.splice(accToRemove, 1);
-    logout();
-  }
-});
 
 const transferMoney = (oriAccount, destAccount, amount) => {
   oriAccount.movements.push(-amount);
@@ -201,3 +155,59 @@ const displayData = account => {
   updateBalance(account);
   calcDisplaySummary(movements, interestRate);
 };
+
+//event handler
+let currentAccount;
+let destTransfer;
+
+btnLogin.addEventListener('click', e => {
+  e.preventDefault();
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    displayData(currentAccount);
+  }
+});
+
+btnTransfer.addEventListener('click', e => {
+  e.preventDefault();
+  destTransfer = accounts.find(acc => acc.username === inputTransferTo.value);
+
+  if (
+    destTransfer?.username &&
+    Number(inputTransferAmount.value) > 0 &&
+    Number(currentAccount.balance) >= Number(inputTransferAmount.value) &&
+    destTransfer?.username !== currentAccount.username
+  )
+    transferMoney(
+      currentAccount,
+      destTransfer,
+      Number(inputTransferAmount.value)
+    );
+  else alert(`⛔ Transfer invalid`);
+  resetInputs();
+});
+
+btnClose.addEventListener('click', e => {
+  e.preventDefault();
+  if (
+    currentAccount.username === inputCloseUsername.value &&
+    currentAccount.pin === Number(inputClosePin.value)
+  ) {
+    const accToRemove = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    accounts.splice(accToRemove, 1);
+    logout();
+  }
+});
+
+btnLoan.addEventListener('click', e => {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount / 10))
+    currentAccount.movements.push(amount);
+  resetInputs();
+  displayData(currentAccount);
+});
