@@ -55,3 +55,28 @@ const breeds = [
     activities: ['agility', 'fetch'],
   },
 ];
+
+// 1
+const huskyWeight = breeds.find(breed => breed.breed === 'Husky').averageWeight;
+
+// 2
+const dogBothActivities = breeds.find(
+  breed =>
+    breed.activities.some(activity => activity === 'running') &&
+    breed.activities.some(activity => activity === 'fetch')
+).breed;
+console.log(huskyWeight);
+console.log(dogBothActivities);
+
+// 3
+
+const allActivities = breeds.flatMap(breed => breed.activities);
+
+console.log(allActivities);
+
+// 4
+
+const uniqueActivities = [...new Set(allActivities)];
+console.log(uniqueActivities);
+
+// 5
