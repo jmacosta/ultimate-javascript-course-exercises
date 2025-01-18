@@ -129,3 +129,7 @@ console.log(
     )
   } movements ago `
 );
+
+console.log(movements.includes(-130));
+console.log(movements.some(mov => mov > 0));
+console.log(movements.every(mov => mov > 0));
