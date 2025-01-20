@@ -49,14 +49,14 @@ const breeds = [
 
 // 1. Store the the average weight of a "Husky" in a variable "huskyWeight"
 const huskyWeight = breeds.find(breed => breed.breed === 'Husky').averageWeight;
-
+console.log(huskyWeight);
 // 2. Find the name of the only breed that likes both "running" and "fetch" ("dogBothActivities" variable)
 const dogBothActivities = breeds.find(
   breed =>
     breed.activities.some(activity => activity === 'running') &&
     breed.activities.some(activity => activity === 'fetch')
 ).breed;
-console.log(huskyWeight);
+
 console.log(dogBothActivities);
 
 // 3 Create an array "allActivities" of all the activities of all the dog breeds
@@ -72,11 +72,16 @@ console.log(uniqueActivities);
 
 // 5 Many dog breeds like to swim. What other activities do these dogs like? Store all the OTHER activities these breeds like to do, in a unique array called "swimmingAdjacent".
 
-const swimmingAdjacent = breeds
-  .filter(breed => breed.activities.some(activity => activity === 'swimming'))
-  .map(breed => breed.activities)
-  .flat()
-  .filter(breed => breed !== 'swimming');
+const swimmingAdjacent = [
+  ...new Set(
+    breeds
+      .filter(breed =>
+        breed.activities.some(activity => activity === 'swimming')
+      )
+      .flatMap(breed => breed.activities)
+      .filter(breed => breed !== 'swimming')
+  ),
+];
 console.log(swimmingAdjacent);
 
 // 6 Do all the breeds have an average weight of 10kg or more? Log to the console whether "true" or "false".
