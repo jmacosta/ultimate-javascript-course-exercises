@@ -107,10 +107,10 @@ const calcPrintBalance = movements => {
   labelBalance.textContent = `${movements.reduce((acc, mov) => acc + mov, 0)}€`;
 };
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
-
-  movements.forEach((move, i) => {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  movs.forEach((move, i) => {
     const typeMovement = move > 0 ? 'deposit' : 'withdrawal';
     const html = `
       <div class="movements__row">
@@ -156,9 +156,12 @@ const displayData = account => {
   calcDisplaySummary(movements, interestRate);
 };
 
+// sort functions
+
 //event handler
 let currentAccount;
 let destTransfer;
+let sorted = false;
 
 btnLogin.addEventListener('click', e => {
   e.preventDefault();
@@ -169,7 +172,11 @@ btnLogin.addEventListener('click', e => {
     displayData(currentAccount);
   }
 });
-
+btnSort.addEventListener('click', e => {
+  e.preventDefault();
+  sorted = !sorted;
+  displayMovements(currentAccount.movements, sorted);
+});
 btnTransfer.addEventListener('click', e => {
   e.preventDefault();
   destTransfer = accounts.find(acc => acc.username === inputTransferTo.value);
