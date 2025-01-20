@@ -181,3 +181,15 @@ console.log(
 console.log(
   accounts.flatMap(acc => acc.movements).reduce((acc, mov) => acc + mov, 0)
 );
+
+// sorting Arrays
+
+// strings
+const owners = ['jonas', 'Zach', 'Adam', 'Martha'];
+console.log(owners.sort());
+console.log(owners);
+
+//numbers
+console.log(movements);
+console.log(movements.sort());
+console.log(movements.sort((a, b) => a - b));
