@@ -193,3 +193,13 @@ console.log(owners);
 console.log(movements);
 console.log(movements.sort());
 console.log(movements.sort((a, b) => a - b));
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Array grouping
+
+console.log(movements);
+
+const groupMovements = Object.groupBy(movements, mov =>
+  mov > 0 ? 'deposit' : 'withdrawal'
+);
+console.log(groupMovements);
