@@ -284,9 +284,7 @@ const convertTitleCase = title => {
     .toLowerCase()
     .split(' ')
     .map(word =>
-      exceptions.includes(word)
-        ? word
-        : `${word[0].toUpperCase()}${word.slice(1)}`
+      exceptions.includes(word) ? word : word[0].toUpperCase() + word.slice(1)
     )
     .join(' ');
 };
