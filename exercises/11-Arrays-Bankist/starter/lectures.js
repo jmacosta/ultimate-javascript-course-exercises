@@ -203,3 +203,12 @@ const groupMovements = Object.groupBy(movements, mov =>
   mov > 0 ? 'deposit' : 'withdrawal'
 );
 console.log(groupMovements);
+
+////////////////////////////////////////////////////////////////////
+//// Non destructive methods
+
+console.log(movements);
+//movements.reverse()
+//movements.toReversed()
+console.log(movements.toReversed());
+console.log(movements);
