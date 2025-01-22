@@ -225,3 +225,72 @@ btnLoan.addEventListener('click', e => {
 
 const groupedAcccounts = Object.groupBy(accounts, ({ type }) => type);
 console.log(groupedAcccounts);
+
+//.1
+const bankDepositSum = accounts
+  .flatMap(account => account.movements)
+  .filter(mov => mov >= 0)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(bankDepositSum);
+
+//.2
+
+// const bankDeposits1000 = accounts
+//   .flatMap(account => account.movements)
+//   .filter(mov => mov >= 1000).length;
+
+const bankDeposits1000 = accounts
+  .flatMap(account => account.movements)
+  .reduce((acc, mov) => (mov >= 1000 ? ++acc : acc), 0);
+
+console.log(bankDeposits1000);
+
+//.3
+// const sums = accounts
+//   .flatMap(account => account.movements)
+//   .reduce(
+//     (sums, mov) => {
+//       mov > 0 ? (sums.deposits += mov) : (sums.withdrawals += mov);
+//       return sums;
+//     },
+//     {
+//       deposits: 0,
+//       withdrawals: 0,
+//     }
+//   );
+
+const sums = accounts
+  .flatMap(account => account.movements)
+  .reduce(
+    (sums, mov) => {
+      sums[mov > 0 ? 'deposits' : 'withdrawals'] += mov;
+      return sums;
+    },
+    {
+      deposits: 0,
+      withdrawals: 0,
+    }
+  );
+console.log(sums);
+
+// 4.
+
+// this is a nice title --> This Is a Nice Title
+
+const convertTitleCase = title => {
+  const exceptions = ['a', 'an', 'the', 'but', 'or', 'on', 'in', 'with'];
+
+  return title
+    .toLowerCase()
+    .split(' ')
+    .map(word =>
+      exceptions.includes(word)
+        ? word
+        : `${word[0].toUpperCase()}${word.slice(1)}`
+    )
+    .join(' ');
+};
+
+console.log(convertTitleCase('this is a nice title'));
+console.log(convertTitleCase('this is a LONG title but not too long'));
+console.log(convertTitleCase('and here is another title with an EXAMPLE'));
