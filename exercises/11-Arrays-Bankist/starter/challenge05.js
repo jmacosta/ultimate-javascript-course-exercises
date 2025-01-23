@@ -74,10 +74,29 @@ const ownersTooLittle = dogs
 console.log(ownersTooLittle);
 
 //4.
-const strTooMuch = ownersTooMuch.join(' and ');
 
 console.log(
   `"${ownersTooMuch.join(' and ') + "'s"} dogs eat too much! and "${
     ownersTooLittle.join(' and ') + "'s"
   } dogs eat too little!`
 );
+
+//5.
+
+console.log(dogs.some(dog => dog.curFood === recFood));
+
+//6.
+
+console.log(
+  dogs.every(
+    dog => dog.curFood > dog.recFood * 0.9 && dog.curFood < dog.recFood * 1.1
+  )
+);
+
+//7.
+const dogsEatingOk = dogs.filter(
+  dog => dog.curFood > dog.recFood * 0.9 && dog.curFood < dog.recFood * 1.1
+);
+console.log(dogsEatingOk);
+
+//8.
