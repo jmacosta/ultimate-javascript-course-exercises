@@ -100,3 +100,15 @@ const dogsEatingOk = dogs.filter(
 console.log(dogsEatingOk);
 
 //8.
+console.log(
+  Object.groupBy(dogs, dog => {
+    if (dog.curFood < dog.recFood * 0.9) return 'too-little';
+    if (dog.curFood > dog.recFood * 1.1) return 'too-much';
+    if (dog.curFood > dog.recFood * 0.9 && dog.curFood < dog.recFood * 1.1)
+      return 'exact';
+  })
+);
+//9.
+console.log(Object.groupBy(dogs, dog => dog.owners.length));
+//. 10
+console.log(dogs.toSorted((a, b) => a.recFood - b.recFood));
