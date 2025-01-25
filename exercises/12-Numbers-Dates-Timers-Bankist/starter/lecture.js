@@ -40,3 +40,11 @@ console.log(Math.trunc(Math.random() * 6) + 1);
 
 // reminder operator
 console.log(5 % 2);
+console.log(5 / 2);
+
+const isEven = n => n % 2 === 0;
+
+console.log(isEven(8));
+console.log(isEven(3));
+console.log(isEven(5));
+console.log(isEven(23425252532443));
