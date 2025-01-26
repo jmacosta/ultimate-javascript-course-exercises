@@ -155,17 +155,25 @@ const calcPrintBalance = movements => {
     .toFixed(2)}€`;
 };
 
-const displayMovements = function (movements, sort = false) {
+const displayMovements = function (account, sort = false) {
   containerMovements.innerHTML = '';
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sort
+    ? account.movements.slice().sort((a, b) => a - b)
+    : account.movements;
   movs.forEach((move, i) => {
     const typeMovement = move > 0 ? 'deposit' : 'withdrawal';
+    const date = new Date(account.movementsDates[i]);
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    const year = date.getFullYear();
+
+    const displayDate = `${day}/${month}/${year}`;
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${typeMovement}">${
       i + 1
     } ${typeMovement}</div>
-        
+        <div class="movements__date">${displayDate}</div>
         <div class="movements__value">${move.toFixed(2)}€</div>
       </div>
   `;
@@ -198,7 +206,7 @@ const displayData = account => {
   const { owner, movements, interestRate } = account;
   labelWelcome.textContent = `Welcome back, ${owner.split(' ')[0]}`;
   containerApp.style.opacity = 100;
-  displayMovements(movements);
+  displayMovements(account);
   calcPrintBalance(movements);
   updateBalance(account);
   calcDisplaySummary(movements, interestRate);
@@ -210,6 +218,21 @@ const displayData = account => {
 let currentAccount;
 let destTransfer;
 let sorted = false;
+
+// fake login
+currentAccount = account1;
+displayData(currentAccount);
+//////////
+
+const now = new Date();
+const day = `${now.getDate()}`.padStart(2, 0);
+const month = `${now.getMonth() + 1}`.padStart(2, 0);
+const year = now.getFullYear();
+const hour = `${now.getHours()}`.padStart(2, 0);
+const minutes = `${now.getMinutes()}`.padStart(2, 0);
+labelDate.textContent = `${day}/${month}/${year},  ${hour}:${minutes}`;
+
+//labelDate.textContent = now.toLocaleDateString();
 
 btnLogin.addEventListener('click', e => {
   e.preventDefault();
@@ -223,7 +246,7 @@ btnLogin.addEventListener('click', e => {
 btnSort.addEventListener('click', e => {
   e.preventDefault();
   sorted = !sorted;
-  displayMovements(currentAccount.movements, sorted);
+  displayMovements(currentAccount, sorted);
 });
 btnTransfer.addEventListener('click', e => {
   e.preventDefault();
