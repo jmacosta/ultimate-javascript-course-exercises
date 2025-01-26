@@ -48,3 +48,9 @@ console.log(isEven(8));
 console.log(isEven(3));
 console.log(isEven(5));
 console.log(isEven(23425252532443));
+
+const diameter = 287_460_000_000;
+console.log(diameter);
+
+const priceCents = 345_99;
+console.log(priceCents);
