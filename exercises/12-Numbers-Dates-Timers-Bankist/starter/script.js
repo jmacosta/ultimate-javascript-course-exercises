@@ -154,7 +154,9 @@ const logout = () => {
 
 const transferMoney = (oriAccount, destAccount, amount) => {
   oriAccount.movements.push(-amount);
+  oriAccount.movementsDates.push(new Date().toISOString());
   destAccount.movements.push(amount);
+  destAccount.movementsDates.push(new Date().toISOString());
   displayData(oriAccount);
 };
 
@@ -286,6 +288,7 @@ btnLoan.addEventListener('click', e => {
   const amount = Math.floor(inputLoanAmount.value);
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount / 10))
     currentAccount.movements.push(amount);
+  currentAccount.movementsDates.push(new Date().toISOString());
   resetInputs();
   displayData(currentAccount);
 });
