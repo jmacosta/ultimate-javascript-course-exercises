@@ -121,6 +121,17 @@ const createUserNames = accs =>
 createUserNames(accounts);
 // reset data
 
+const formatDate = (date, balanceDate = false) => {
+  const day = `${date.getDate()}`.padStart(2, 0);
+  const month = `${date.getMonth() + 1}`.padStart(2, 0);
+  const year = date.getFullYear();
+  const hour = `${date.getHours()}`.padStart(2, 0);
+  const minutes = `${date.getMinutes()}`.padStart(2, 0);
+  return balanceDate
+    ? `${day}/${month}/${year},  ${hour}:${minutes}`
+    : `${day}/${month}/${year}`;
+};
+
 const resetInputs = () => {
   inputLoginPin.value = '';
   inputLoginUsername.value = '';
@@ -162,12 +173,7 @@ const displayMovements = function (account, sort = false) {
     : account.movements;
   movs.forEach((move, i) => {
     const typeMovement = move > 0 ? 'deposit' : 'withdrawal';
-    const date = new Date(account.movementsDates[i]);
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() + 1}`.padStart(2, 0);
-    const year = date.getFullYear();
-
-    const displayDate = `${day}/${month}/${year}`;
+    const displayDate = formatDate(new Date(account.movementsDates[i]));
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${typeMovement}">${
@@ -222,15 +228,8 @@ let sorted = false;
 // fake login
 currentAccount = account1;
 displayData(currentAccount);
+labelDate.textContent = formatDate(new Date(), true);
 //////////
-
-const now = new Date();
-const day = `${now.getDate()}`.padStart(2, 0);
-const month = `${now.getMonth() + 1}`.padStart(2, 0);
-const year = now.getFullYear();
-const hour = `${now.getHours()}`.padStart(2, 0);
-const minutes = `${now.getMinutes()}`.padStart(2, 0);
-labelDate.textContent = `${day}/${month}/${year},  ${hour}:${minutes}`;
 
 //labelDate.textContent = now.toLocaleDateString();
 
@@ -242,6 +241,7 @@ btnLogin.addEventListener('click', e => {
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     displayData(currentAccount);
   }
+  labelDate.textContent = formatDate(new Date(), true);
 });
 btnSort.addEventListener('click', e => {
   e.preventDefault();
