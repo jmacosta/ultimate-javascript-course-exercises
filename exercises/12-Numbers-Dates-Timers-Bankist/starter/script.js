@@ -72,8 +72,8 @@ const account2 = {
     '2020-01-25T14:18:46.235Z',
     '2020-02-05T16:33:06.386Z',
     '2020-04-10T14:43:26.374Z',
-    '2020-06-25T18:49:59.371Z',
-    '2020-07-26T12:01:20.894Z',
+    '2025-01-24T18:49:59.371Z',
+    '2025-01-26T12:01:20.894Z',
   ],
   currency: 'USD',
   locale: 'en-US',
@@ -122,6 +122,19 @@ createUserNames(accounts);
 // reset data
 
 const formatDate = (date, balanceDate = false) => {
+  const calcDaysPassed = (date1, date2) =>
+    Math.round(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
+
+  const friendlyDates = date => {
+    const daysPassed = calcDaysPassed(new Date(), date);
+    if (daysPassed === 0) return 'Today';
+    if (daysPassed === 1) return 'Yesterday';
+    if (daysPassed <= 7) return `${daysPassed} days ago`;
+    else {
+      return `${day}/${month}/${year}`;
+    }
+  };
+
   const day = `${date.getDate()}`.padStart(2, 0);
   const month = `${date.getMonth() + 1}`.padStart(2, 0);
   const year = date.getFullYear();
@@ -129,7 +142,7 @@ const formatDate = (date, balanceDate = false) => {
   const minutes = `${date.getMinutes()}`.padStart(2, 0);
   return balanceDate
     ? `${day}/${month}/${year},  ${hour}:${minutes}`
-    : `${day}/${month}/${year}`;
+    : friendlyDates(date);
 };
 
 const resetInputs = () => {
