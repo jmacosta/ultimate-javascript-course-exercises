@@ -170,19 +170,24 @@ const calcPrintBalance = movements => {
 
 const displayMovements = function (account, sort = false) {
   containerMovements.innerHTML = '';
-  const movs = sort
-    ? account.movements.slice().sort((a, b) => a - b)
-    : account.movements;
-  movs.forEach((move, i) => {
-    const typeMovement = move > 0 ? 'deposit' : 'withdrawal';
-    const displayDate = formatDate(new Date(account.movementsDates[i]));
+  const combinedMovsDates = account.movements.map((mov, i) => {
+    return { movement: mov, movementDate: account.movementsDates.at(i) };
+  });
+  console.log(combinedMovsDates);
+
+  if (sort) combinedMovsDates.sort((a, b) => a.movement - b.movement);
+
+  combinedMovsDates.forEach((object, i) => {
+    const { movement, movementDate } = object;
+    const typeMovement = movement > 0 ? 'deposit' : 'withdrawal';
+    const displayDate = formatDate(new Date(movementDate));
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${typeMovement}">${
       i + 1
     } ${typeMovement}</div>
         <div class="movements__date">${displayDate}</div>
-        <div class="movements__value">${move.toFixed(2)}€</div>
+        <div class="movements__value">${movement.toFixed(2)}€</div>
       </div>
   `;
     containerMovements.insertAdjacentHTML('afterbegin', html);
