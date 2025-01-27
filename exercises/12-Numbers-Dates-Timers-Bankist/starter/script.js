@@ -130,9 +130,8 @@ const formatDate = (date, balanceDate = false) => {
     if (daysPassed === 0) return 'Today';
     if (daysPassed === 1) return 'Yesterday';
     if (daysPassed <= 7) return `${daysPassed} days ago`;
-    else {
-      return `${day}/${month}/${year}`;
-    }
+
+    return `${day}/${month}/${year}`;
   };
 
   const day = `${date.getDate()}`.padStart(2, 0);
