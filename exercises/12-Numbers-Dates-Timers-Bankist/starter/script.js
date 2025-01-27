@@ -121,7 +121,33 @@ const createUserNames = accs =>
 createUserNames(accounts);
 // reset data
 
+const formatMoney = (value, locale, currency) => {
+  const options = {
+    style: 'currency',
+    currency,
+  };
+
+  return Intl.NumberFormat(locale, options).format(value);
+};
+
 const formatDate = (date, balanceDate = false) => {
+  const now = new Date();
+  const optionsBalance = {
+    day: 'numeric',
+    month: '2-digit',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  };
+
+  const optionsMovements = {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  };
+
+  // const locale = navigator.language;
+
   const calcDaysPassed = (date1, date2) =>
     Math.round(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
 
@@ -130,17 +156,16 @@ const formatDate = (date, balanceDate = false) => {
     if (daysPassed === 0) return 'Today';
     if (daysPassed === 1) return 'Yesterday';
     if (daysPassed <= 7) return `${daysPassed} days ago`;
-
-    return `${day}/${month}/${year}`;
+    return new Intl.DateTimeFormat(
+      currentAccount.locale,
+      optionsMovements
+    ).format(date);
   };
 
-  const day = `${date.getDate()}`.padStart(2, 0);
-  const month = `${date.getMonth() + 1}`.padStart(2, 0);
-  const year = date.getFullYear();
-  const hour = `${date.getHours()}`.padStart(2, 0);
-  const minutes = `${date.getMinutes()}`.padStart(2, 0);
   return balanceDate
-    ? `${day}/${month}/${year},  ${hour}:${minutes}`
+    ? new Intl.DateTimeFormat(currentAccount.locale, optionsBalance).format(
+        date
+      )
     : friendlyDates(date);
 };
 
@@ -175,9 +200,12 @@ const transferMoney = (oriAccount, destAccount, amount) => {
 //Display Data functions
 
 const calcPrintBalance = movements => {
-  labelBalance.textContent = `${movements
-    .reduce((acc, mov) => acc + mov, 0)
-    .toFixed(2)}€`;
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  return (labelBalance.textContent = formatMoney(
+    balance,
+    currentAccount.locale,
+    currentAccount.currency
+  ));
 };
 
 const displayMovements = function (account, sort = false) {
@@ -199,7 +227,11 @@ const displayMovements = function (account, sort = false) {
       i + 1
     } ${typeMovement}</div>
         <div class="movements__date">${displayDate}</div>
-        <div class="movements__value">${movement.toFixed(2)}€</div>
+        <div class="movements__value">${formatMoney(
+          movement,
+          account.locale,
+          account.currency
+        )}</div>
       </div>
   `;
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -210,17 +242,29 @@ const calcDisplaySummary = (movements, interestRate) => {
   const incomes = movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
+  labelSumIn.textContent = formatMoney(
+    incomes,
+    currentAccount.locale,
+    currentAccount.currency
+  );
   const out = movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumOut.textContent = `${Math.abs(out).toFixed(2)}€`;
+  labelSumOut.textContent = formatMoney(
+    Math.abs(out),
+    currentAccount.locale,
+    currentAccount.currency
+  );
   const interest = movements
     .filter(mov => mov > 0)
     .map(deposit => (deposit * interestRate) / 100)
     .filter(int => int > 1)
     .reduce((acc, int) => acc + int, 0);
-  labelSumInterest.textContent = `${interest.toFixed(2)}€`;
+  labelSumInterest.textContent = formatMoney(
+    interest,
+    currentAccount.locale,
+    currentAccount.currency
+  );
 };
 const updateBalance = account => {
   account.balance = account.movements.reduce((acc, mov) => acc + mov, 0);
@@ -244,10 +288,6 @@ let currentAccount;
 let destTransfer;
 let sorted = false;
 
-// fake login
-currentAccount = account1;
-displayData(currentAccount);
-labelDate.textContent = formatDate(new Date(), true);
 //////////
 
 //labelDate.textContent = now.toLocaleDateString();
