@@ -141,3 +141,10 @@ const calcDaysPassed = (date1, date2) =>
 calcDaysPassed(new Date(2037, 10, 24), new Date(2037, 10, 19));
 
 console.log(calcDaysPassed(new Date(2037, 10, 24), new Date(2037, 10, 18)));
+
+setTimeout(() => console.log('Here is your pizza 🍕'), 3000);
+console.log('waiting...');
+
+setInterval(() => {
+  console.log(new Date());
+}, 1000);
