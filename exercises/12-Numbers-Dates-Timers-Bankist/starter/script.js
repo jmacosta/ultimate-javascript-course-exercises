@@ -183,6 +183,8 @@ const resetInputs = () => {
   inputLoanAmount.blur();
   inputCloseUsername.blur();
   inputClosePin.blur();
+  clearInterval(timer);
+  timer = startLogOutTimer();
 };
 const logout = () => {
   containerApp.style.opacity = 0;
@@ -283,10 +285,29 @@ const displayData = account => {
 
 // sort functions
 
+const startLogOutTimer = () => {
+  let timeOut = 5 * 60;
+  const tick = () => {
+    const min = String(Math.trunc(timeOut / 60)).padStart(2, 0);
+    const sec = String(timeOut % 60).padStart(2, 0);
+    labelTimer.textContent = `${min}:${sec}`;
+
+    if (timeOut === 0) {
+      clearInterval(timer);
+      logout();
+    }
+    timeOut--;
+  };
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+};
+
 //event handler
-let currentAccount;
-let destTransfer;
-let sorted = false;
+let currentAccount,
+  destTransfer,
+  sorted = false,
+  timer;
 
 //////////
 
@@ -301,6 +322,8 @@ btnLogin.addEventListener('click', e => {
     displayData(currentAccount);
   }
   labelDate.textContent = formatDate(new Date(), true);
+  if (timer) clearInterval(timer);
+  timer = startLogOutTimer();
 });
 btnSort.addEventListener('click', e => {
   e.preventDefault();
