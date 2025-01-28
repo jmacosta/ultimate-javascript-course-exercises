@@ -340,14 +340,18 @@ btnClose.addEventListener('click', e => {
   }
 });
 
+const loan = amount => {
+  currentAccount.movements.push(amount);
+  currentAccount.movementsDates.push(new Date().toISOString());
+  displayData(currentAccount);
+};
+
 btnLoan.addEventListener('click', e => {
   e.preventDefault();
   const amount = Math.floor(inputLoanAmount.value);
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount / 10))
-    currentAccount.movements.push(amount);
-  currentAccount.movementsDates.push(new Date().toISOString());
+    setTimeout(loan, 3000, amount);
   resetInputs();
-  displayData(currentAccount);
 });
 
 const groupedAcccounts = Object.groupBy(accounts, ({ type }) => type);
