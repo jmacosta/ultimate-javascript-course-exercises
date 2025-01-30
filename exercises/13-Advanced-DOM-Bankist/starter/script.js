@@ -67,3 +67,37 @@ header.append(message);
 document.querySelector('.btn--close-cookie').addEventListener('click', () => {
   message.remove();
 });
+
+// Styles
+
+message.style.backgroundColor = '#37383d';
+message.style.width = '120%';
+
+console.log(message.style.backgroundColor);
+
+console.log(getComputedStyle(message).height);
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height) + 30 + 'px';
+
+//document.documentElement.style.setProperty('--color-primary', 'orangered');
+
+//Atributes
+
+const logo = document.querySelector('.nav__logo');
+logo.alt = ' Beautiful minimalist logo';
+console.log(logo.alt);
+console.log(logo.src);
+console.log(logo.className);
+
+console.log(logo.getAttribute('src'));
+
+const link = document.querySelector('.twitter-link');
+console.log(link.href);
+console.log(link.getAttribute('href'));
+
+console.log(logo.dataset.versionNumber);
+
+logo.classList.add('c', 'j');
+logo.classList.remove('c', 'j');
+logo.classList.toggle('c');
+logo.classList.contains('c');
