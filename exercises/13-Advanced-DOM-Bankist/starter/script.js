@@ -35,15 +35,15 @@ document.addEventListener('keydown', function (e) {
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 
-console.log(document.documentElement);
-console.log(document.head);
-console.log(document.body);
-console.log(document.querySelector('.header'));
-console.log(document.querySelectorAll('.section'));
+// console.log(document.documentElement);
+// console.log(document.head);
+// console.log(document.body);
+// console.log(document.querySelector('.header'));
+// console.log(document.querySelectorAll('.section'));
 
 document.getElementById('section--1');
 const allButtons = document.getElementsByTagName('button');
-console.log(allButtons);
+// console.log(allButtons);
 
 document.getElementsByClassName('btn');
 
@@ -73,9 +73,9 @@ document.querySelector('.btn--close-cookie').addEventListener('click', () => {
 message.style.backgroundColor = '#37383d';
 message.style.width = '120%';
 
-console.log(message.style.backgroundColor);
+// console.log(message.style.backgroundColor);
 
-console.log(getComputedStyle(message).height);
+// console.log(getComputedStyle(message).height);
 message.style.height =
   Number.parseFloat(getComputedStyle(message).height) + 30 + 'px';
 
@@ -85,17 +85,17 @@ message.style.height =
 
 const logo = document.querySelector('.nav__logo');
 logo.alt = ' Beautiful minimalist logo';
-console.log(logo.alt);
-console.log(logo.src);
-console.log(logo.className);
+// console.log(logo.alt);
+// console.log(logo.src);
+// console.log(logo.className);
 
-console.log(logo.getAttribute('src'));
+// console.log(logo.getAttribute('src'));
 
 const link = document.querySelector('.twitter-link');
-console.log(link.href);
-console.log(link.getAttribute('href'));
+// console.log(link.href);
+// console.log(link.getAttribute('href'));
 
-console.log(logo.dataset.versionNumber);
+// console.log(logo.dataset.versionNumber);
 
 logo.classList.add('c', 'j');
 logo.classList.remove('c', 'j');
@@ -123,3 +123,25 @@ const alertH1 = e => {
 const h1 = document.querySelector('h1');
 h1.addEventListener('mouseenter', alertH1);
 h1.removeEventListener('mouseenter', alertH1);
+
+const randomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
+
+const randomColor = () =>
+  `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`;
+
+document.querySelector('.nav__link').addEventListener('click', function (e) {
+  this.style.backgroundColor = randomColor();
+  console.log('LINK', e.target, e.currentTarget);
+  // e.stopPropagation();
+});
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  this.style.backgroundColor = randomColor();
+  console.log('CONTAINER', e.target, e.currentTarget);
+});
+document.querySelector('nav').addEventListener('click', function (e) {
+  this.style.backgroundColor = randomColor();
+  console.log('NAV', e.target, e.currentTarget);
+});
+
+// console.log(randomColor());
