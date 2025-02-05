@@ -11,6 +11,9 @@ const tabs = document.querySelectorAll('.operations__tab');
 const tabContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
 const nav = document.querySelector('.nav');
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+const header = document.querySelector('.header');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -34,9 +37,6 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
-
-const btnScrollTo = document.querySelector('.btn--scroll-to');
-const section1 = document.querySelector('#section--1');
 
 btnScrollTo.addEventListener('click', e => {
   const s1coords = section1.getBoundingClientRect();
@@ -107,13 +107,31 @@ nav.addEventListener('mouseover', handlerHover.bind(0.5));
 nav.addEventListener('mouseout', handlerHover.bind(1));
 
 // sticky navigation
-const initialcoords = section1.getBoundingClientRect();
-console.log(initialcoords);
-window.addEventListener('scroll', function (e) {
-  if (this.window.scrollY > initialcoords.top) nav.classList.add('sticky');
-  else nav.classList.remove('sticky');
-});
+// const initialcoords = section1.getBoundingClientRect();
+// console.log(initialcoords);
+// window.addEventListener('scroll', function (e) {
+//   if (this.window.scrollY > initialcoords.top) nav.classList.add('sticky');
+//   else nav.classList.remove('sticky');
+// });
 
+// Sticky navigation: Intersection Observer API
+const navHeight = nav.getBoundingClientRect().height;
+const stickyNav = function (entries) {
+  const [entry] = entries;
+
+  entry.isIntersecting
+    ? nav.classList.remove('sticky')
+    : nav.classList.add('sticky');
+};
+const headerObsOpts = {
+  root: null,
+  threshold: [0],
+  rootMargin: `-${navHeight}px`,
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, headerObsOpts);
+
+headerObserver.observe(header);
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -138,7 +156,7 @@ message.classList.add('cookie-message');
 //message.textContent= 'We use cookies for improved functionality and analytics '
 message.innerHTML =
   'We use cookies for improved functionality and analytics <button class = "btn btn--close-cookie">Got it!</button>';
-const header = document.querySelector('.header');
+
 header.prepend(message);
 //header.append(message.cloneNode(message));
 header.append(message);
