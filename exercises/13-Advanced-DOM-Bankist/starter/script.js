@@ -179,6 +179,38 @@ const slides = document.querySelectorAll('.slide');
 const btnLeft = document.querySelector('.slider__btn--left');
 const btnRight = document.querySelector('.slider__btn--right');
 let curSlide = 0;
+const dotContainer = document.querySelector('.dots');
+const createDots = function () {
+  slides.forEach((_, i) => {
+    dotContainer.insertAdjacentHTML(
+      'beforeend',
+      `<button class="dots__dot" data-slide="${i}"></button>`
+    );
+  });
+
+  dotContainer.addEventListener('click', function (e) {
+    if (e.target.classList.contains('dots__dot')) {
+      curSlide = Number(e.target.dataset.slide);
+      gotoSlide(curSlide);
+    }
+  });
+};
+const activateDot = function (slide) {
+  document
+    .querySelectorAll('.dots__dot')
+    .forEach(dot => dot.classList.remove('dots__dot--active'));
+  document
+    .querySelector(`.dots__dot[data-slide="${slide}"]`)
+    .classList.add('dots__dot--active');
+  console.log(`dots__dot[data-slide="${slide}"]`);
+};
+const gotoSlide = function (slide) {
+  slides.forEach(
+    (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
+  );
+  activateDot(slide);
+};
+
 const slidesMove = function (direction = 'neutral') {
   if (direction === 'right') {
     console.log(curSlide);
@@ -190,11 +222,10 @@ const slidesMove = function (direction = 'neutral') {
       ? (curSlide = slides.length - 1)
       : curSlide--;
   }
-  slides.forEach(
-    (s, i) => (s.style.transform = `translateX(${100 * (i - curSlide)}%)`)
-  );
+  gotoSlide(curSlide);
 };
 
+createDots();
 slidesMove();
 
 // next slide
@@ -204,6 +235,12 @@ btnRight.addEventListener('click', function () {
 });
 btnLeft.addEventListener('click', function () {
   slidesMove('left');
+});
+
+document.addEventListener('keydown', function (e) {
+  console.log(e);
+  e.key === 'ArrowLeft' && slidesMove('left');
+  e.key === 'ArrowRight' && slidesMove('right');
 });
 
 ////////////////////////////////////////////////////////////////////////////
