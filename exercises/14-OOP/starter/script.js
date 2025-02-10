@@ -84,3 +84,15 @@ account.latest = 326;
 console.log(account.latest);
 
 PersonCl.hey();
+
+const PersonProto = {
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  },
+};
+
+const steven = Object.create(PersonProto);
+steven.name = 'Steven';
+steven.birthYear = 2002;
+console.log(steven.calcAge());
+console.log(steven);
