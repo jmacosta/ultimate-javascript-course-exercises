@@ -44,3 +44,36 @@ Array.prototype.unique = function () {
 console.log(arr.unique());
 
 const h1 = document.querySelector('h1');
+
+//class expression
+// const PersonCl = class{}
+class PersonCl {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  }
+}
+
+const jessica = new PersonCl('Jessica', 1996);
+console.log(jessica);
+
+//1. Classes are NOT Hoisted
+//2. Classes are first-class Citizens
+//3. Classes are executed in strict mode
+
+const account = {
+  owner: 'jonas',
+  movements: [200, 539, 345, 234, 453],
+  get latest() {
+    return this.movements.slice(-1).pop();
+  },
+  set latest(mov) {
+    this.movements.push(mov);
+  },
+};
+console.log(account.latest);
+account.latest = 326;
+console.log(account.latest);
