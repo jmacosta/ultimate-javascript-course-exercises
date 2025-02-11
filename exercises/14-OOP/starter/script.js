@@ -96,3 +96,21 @@ steven.name = 'Steven';
 steven.birthYear = 2002;
 console.log(steven.calcAge());
 console.log(steven);
+
+const Student = function (firstName, birthYear, course) {
+  Person.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+Student.prototype = Object.create(Person.prototype);
+Student.prototype.introduce = function () {
+  console.log(`My name is ${this.firstName} and I Study ${this.course}`);
+};
+const mike = new Student('Mike', 2020, 'Computer science');
+console.log(mike);
+mike.introduce();
+mike.calcAge();
+
+console.log(mike.__proto__);
+console.log(mike.__proto__.__proto__);
+console.log(Student.prototype.constructor);
