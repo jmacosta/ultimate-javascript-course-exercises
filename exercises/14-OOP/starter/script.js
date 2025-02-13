@@ -174,31 +174,83 @@ jay.introduce();
 jay.calcAge();
 jay.hey();
 
+// class Account {
+//   constructor(owner, currency, pin, movements) {
+//     this.owner = owner;
+//     this.currency = currency;
+//     this.pin = pin;
+//     this.movements = movements;
+//     this.locale = navigator.language;
+
+//     console.log(`Thanks for opening an account, ${owner}`);
+//   }
+
+//   deposit(mov) {
+//     this.movements.push(mov);
+//   }
+//   withdrawal(mov) {
+//     this.deposit(-mov);
+//   }
+//   approveLoan(val) {
+//     return true;
+//   }
+//   requestLoan(val) {
+//     if (this.approveLoan(val)) {
+//       this.deposit(val);
+//       console.log(`Loan approved`);
+//     }
+//   }
+// }
+
+//const acc1 = new Account('Jonas', 'Eur', 1111, []);
+// acc1.deposit(250);
+// acc1.withdrawal(140);
+// console.log(acc1);
+// acc1.requestLoan(1000);
+// acc1.approveLoan(1000);
+///////////////////////////////
+/// Encapsulation : Private Class Fields and Methods
+// 1) Public fields
+// 2) Private fields
+// 3) Public Methods
+// 4) Private Methods
+//STATIC version of theses 4
 class Account {
+  locale = navigator.language;
+  bank = 'Bankist';
+  #movements = [];
+  #pin;
   constructor(owner, currency, pin, movements) {
     this.owner = owner;
     this.currency = currency;
-    this.pin = pin;
-    this.movements = movements;
-    this.locale = navigator.language;
+    this.#pin = pin;
+    //this.movements = movements;
+    //this.locale = navigator.language;
 
     console.log(`Thanks for opening an account, ${owner}`);
   }
-
+  // public interface (API)
+  getMovements() {
+    return this.#movements;
+  }
   deposit(mov) {
-    this.movements.push(mov);
+    this.#movements.push(mov);
   }
   withdrawal(mov) {
     this.deposit(-mov);
   }
-  approveLoan(val) {
+  #approveLoan(val) {
     return true;
   }
   requestLoan(val) {
-    if (this.approveLoan(val)) {
+    if (this.#approveLoan(val)) {
       this.deposit(val);
       console.log(`Loan approved`);
     }
+  }
+  static test() {
+    console.log('TEST');
+    return true;
   }
 }
 
