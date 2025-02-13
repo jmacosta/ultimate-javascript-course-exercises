@@ -85,17 +85,17 @@ console.log(account.latest);
 
 PersonCl.hey();
 
-const PersonProto = {
-  calcAge() {
-    console.log(2037 - this.birthYear);
-  },
-};
+// const PersonProto = {
+//   calcAge() {
+//     console.log(2037 - this.birthYear);
+//   },
+// };
 
-const steven = Object.create(PersonProto);
-steven.name = 'Steven';
-steven.birthYear = 2002;
-console.log(steven.calcAge());
-console.log(steven);
+// const steven = Object.create(PersonProto);
+// steven.name = 'Steven';
+// steven.birthYear = 2002;
+// console.log(steven.calcAge());
+// console.log(steven);
 
 const Student = function (firstName, birthYear, course) {
   Person.call(this, firstName, birthYear);
@@ -137,3 +137,74 @@ class StudentCl extends PersonCl {
 const martha = new StudentCl('Martha Jones', 2012, 'Computer Science');
 martha.introduce();
 martha.calcAge();
+
+//////////////////////////////
+// Inheritance Between "Classes" : Object.create
+
+const PersonProto = {
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  },
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven = Object.create(PersonProto);
+const StudentProto = Object.create(PersonProto);
+StudentProto.init = function (firstName, birthYear, course) {
+  PersonProto.init.call(this, firstName, birthYear);
+  this.course = course;
+};
+StudentProto.introduce = function () {
+  console.log(`My name is ${this.firstName} and I Study ${this.course}`);
+};
+
+const jay = Object.create(StudentProto);
+PersonProto.hey = function () {
+  console.log(`Hey ${this.firstName} how are you?`);
+};
+jay.init('Jay', 2010, 'Computer Science');
+steven.firstName = 'Steven';
+steven.birthYear = 2020;
+
+console.log(steven);
+jay.introduce();
+jay.calcAge();
+jay.hey();
+
+class Account {
+  constructor(owner, currency, pin, movements) {
+    this.owner = owner;
+    this.currency = currency;
+    this.pin = pin;
+    this.movements = movements;
+    this.locale = navigator.language;
+
+    console.log(`Thanks for opening an account, ${owner}`);
+  }
+
+  deposit(mov) {
+    this.movements.push(mov);
+  }
+  withdrawal(mov) {
+    this.deposit(-mov);
+  }
+  approveLoan(val) {
+    return true;
+  }
+  requestLoan(val) {
+    if (this.approveLoan(val)) {
+      this.deposit(val);
+      console.log(`Loan approved`);
+    }
+  }
+}
+
+const acc1 = new Account('Jonas', 'Eur', 1111, []);
+acc1.deposit(250);
+acc1.withdrawal(140);
+console.log(acc1);
+acc1.requestLoan(1000);
+acc1.approveLoan(1000);
