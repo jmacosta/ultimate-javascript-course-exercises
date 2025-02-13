@@ -114,3 +114,26 @@ mike.calcAge();
 console.log(mike.__proto__);
 console.log(mike.__proto__.__proto__);
 console.log(Student.prototype.constructor);
+
+class StudentCl extends PersonCl {
+  constructor(firstName, birthYear, course) {
+    super(firstName, birthYear);
+    this.course = course;
+  }
+  introduce() {
+    console.log(`My name is ${this.firstName} and I Study ${this.course}`);
+  }
+  calcAge() {
+    console.log(
+      `I'm ${
+        2037 - this.birthYear
+      } years old but as a student i feel more like ${
+        2037 - this.birthYear + 10
+      }`
+    );
+  }
+}
+
+const martha = new StudentCl('Martha Jones', 2012, 'Computer Science');
+martha.introduce();
+martha.calcAge();
