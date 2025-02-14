@@ -235,9 +235,11 @@ class Account {
   }
   deposit(mov) {
     this.#movements.push(mov);
+    return this;
   }
   withdrawal(mov) {
     this.deposit(-mov);
+    return this;
   }
   #approveLoan(val) {
     return true;
@@ -247,6 +249,7 @@ class Account {
       this.deposit(val);
       console.log(`Loan approved`);
     }
+    return this;
   }
   static test() {
     console.log('TEST');
@@ -255,8 +258,19 @@ class Account {
 }
 
 const acc1 = new Account('Jonas', 'Eur', 1111, []);
-acc1.deposit(250);
-acc1.withdrawal(140);
+// acc1.deposit(250);
+// acc1.withdrawal(140);
+// console.log(acc1);
+// acc1.requestLoan(1000);
+// acc1.approveLoan(1000);
+
+const movements = acc1
+  .deposit(300)
+  .withdrawal(100)
+  .withdrawal(50)
+  .requestLoan(25000)
+  .withdrawal(4000)
+  .getMovements();
+
 console.log(acc1);
-acc1.requestLoan(1000);
-acc1.approveLoan(1000);
+console.log(movements);
