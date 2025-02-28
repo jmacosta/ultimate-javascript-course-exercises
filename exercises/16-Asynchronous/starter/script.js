@@ -68,8 +68,8 @@ const renderError = function (msg) {
 // request.open('GET', `https://restcountries.com/v2/name/${country}`);
 // request.send();
 
-const request = fetch('https://restcountries.com/v2/name/portugal');
-console.log(request);
+// const request = fetch('https://restcountries.com/v2/name/portugal');
+// console.log(request);
 
 // const getCountryData = function (country) {
 //   fetch(`https://restcountries.com/v2/name/${country}`).then(function (
@@ -107,5 +107,26 @@ const getCountryData = function (country) {
 };
 
 btn.addEventListener('click', function () {
-  getCountryData('australia');
+  whereAmI(52.508, 13.381);
+  whereAmI(19.037, 72.873);
+  whereAmI(-33.933, 18.474);
 });
+
+const whereAmI = function (lat, lng) {
+  fetch(
+    ` https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
+  )
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('something was wrong');
+      }
+      return response.json();
+    })
+    .then(data => {
+      //console.log(`You are in ${data.city}, ${data.countryName}`);
+      getCountryData(data.countryName);
+    })
+    .catch(function (err) {
+      console.log(`An error ${err.message}`);
+    });
+};
