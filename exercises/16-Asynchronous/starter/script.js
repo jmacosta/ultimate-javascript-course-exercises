@@ -123,8 +123,8 @@ const whereAmI = function (lat, lng) {
       return response.json();
     })
     .then(data => {
-      //console.log(`You are in ${data.city}, ${data.countryName}`);
       getCountryData(data.countryName);
+      console.log(`You are in ${data.city}, ${data.countryName}`);
     })
     .catch(function (err) {
       console.log(`An error ${err.message}`);
