@@ -112,21 +112,30 @@ btn.addEventListener('click', function () {
   whereAmI(-33.933, 18.474);
 });
 
-const whereAmI = function (lat, lng) {
-  fetch(
-    ` https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
-  )
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('something was wrong');
-      }
-      return response.json();
-    })
-    .then(data => {
-      getCountryData(data.countryName);
-      console.log(`You are in ${data.city}, ${data.countryName}`);
-    })
-    .catch(function (err) {
-      console.log(`An error ${err.message}`);
-    });
-};
+// const whereAmI = function (lat, lng) {
+//   fetch(
+//     ` https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
+//   )
+//     .then(response => {
+//       if (!response.ok) {
+//         throw new Error('something was wrong');
+//       }
+//       return response.json();
+//     })
+//     .then(data => {
+//       getCountryData(data.countryName);
+//       console.log(`You are in ${data.city}, ${data.countryName}`);
+//     })
+//     .catch(function (err) {
+//       console.log(`An error ${err.message}`);
+//     });
+// };
+
+console.log('¡Test start');
+setTimeout(() => console.log('0 sec timer!'), 0);
+Promise.resolve('Resolve promise 1').then(res => console.log(res));
+Promise.resolve('Resolve promise 2').then(res => {
+  for (let i = 0; i < 100000000000; i++) {}
+  console.log(res);
+});
+console.log('Test end');
