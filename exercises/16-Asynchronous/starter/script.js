@@ -168,22 +168,58 @@ const wait = function (seconds) {
 //   })
 //   .then(() => console.log('I waited for 1 second'));
 
-wait(1)
-  .then(() => {
-    console.log('I waited for 1 seconds');
-    return wait(1);
-  })
-  .then(() => {
-    console.log('I waited for 2 seconds');
-    return wait(1);
-  })
-  .then(() => {
-    console.log('I waited for 3 seconds');
-    return wait(1);
-  })
-  .then(() => {
-    console.log('I waited for 4 seconds');
-  });
+// wait(1)
+//   .then(() => {
+//     console.log('I waited for 1 seconds');
+//     return wait(1);
+//   })
+//   .then(() => {
+//     console.log('I waited for 2 seconds');
+//     return wait(1);
+//   })
+//   .then(() => {
+//     console.log('I waited for 3 seconds');
+//     return wait(1);
+//   })
+//   .then(() => {
+//     console.log('I waited for 4 seconds');
+//   });
 
-Promise.resolve('ABC').then(x => console.log(x));
-Promise.reject('ABC').then(x => console.error(x));
+// Promise.resolve('ABC').then(x => console.log(x));
+// Promise.reject('ABC').then(x => console.error(x));
+
+navigator.geolocation.getCurrentPosition(
+  position => console.log(position),
+  err => console.error(err)
+);
+
+console.log('Getting position');
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+getPosition().then(pos => console.log(pos));
+
+const whereAmI = function (lat, lng) {
+  fetch(
+    ` https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
+  )
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('something was wrong');
+      }
+      return response.json();
+    })
+    .then(data => {
+      getCountryData(data.countryName);
+      console.log(`You are in ${data.city}, ${data.countryName}`);
+    })
+    .catch(function (err) {
+      console.log(`An error ${err.message}`);
+    });
+};
+
+getPosition().then(pos => whereAmI(pos.coords.latitude, pos.coords.longitude));
