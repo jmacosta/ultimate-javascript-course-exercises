@@ -36,20 +36,38 @@ const wait = function (seconds) {
     setTimeout(resolve, seconds * 1000);
   });
 };
-
+const imagesContainer = document.querySelector('.images');
 const createImg = function (imgPath) {
   return new Promise((resolve, reject) => {
     const img = document.createElement('img');
     img.src = imgPath;
-    body.appendChild(img);
-    img.onload = () => {
-      img.classList.add('images');
+
+    img.addEventListener('load', function () {
+      imagesContainer.append(img);
       resolve(img);
-    };
-    img.onerror = () => {
+    });
+    img.addEventListener('error', function () {
       reject(new Error("Can't find the image"));
-    };
+    });
   });
 };
-
-createImg('img/img-1.jpg');
+let currentImg;
+createImg('img/img-1.jpg')
+  .then(img => {
+    currentImg = img;
+    console.log('Image 1 loaded');
+  })
+  .then(wait(2))
+  .then(() => {
+    currentImg.style.display = 'none';
+    return createImg('img/img-2.jpg');
+  })
+  .then(img => {
+    currentImg = img;
+    console.log('Image 2 loaded');
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = 'none';
+  })
+  .catch(err => console.error(err));
